@@ -1,21 +1,32 @@
 #include<stdio.h>
 
 
-int is_valid(int (*puzzle_ptr)[9], int row, int col, int target)
+int in_row(int (*puzzle_ptr)[9], int row, int target)
 {
-    // cek baris
-    for (int i = 0; i < 9; i++)
-    {
+   // cek baris
+    for (int i = 0; i < 9; i++) {
         if (puzzle_ptr[row][i] == target) return 0;
     }
     
-    // cek kolom
+    return 1;
+}
+
+
+int in_col(int (*puzzle_ptr)[9], int col, int target)
+{
+   // cek kolom
     for (int i = 0; i < 9; i++)
     {
         if (puzzle_ptr[i][col] == target) return 0;
     }
     
-    // cek sub puzzle 3x3
+    return 1;
+}
+
+
+int in_sub_puzzle(int (*puzzle_ptr)[9], int row, int col, int target)
+{
+   // cek sub puzzle 3x3
     int iStart    = (row/3)*3;
     int jStart    = (col/3)*3;
     
@@ -27,6 +38,15 @@ int is_valid(int (*puzzle_ptr)[9], int row, int col, int target)
     
     return 1;
 }
+
+
+int is_valid(int (*puzzle_ptr)[9], int row, int col, int target)
+{
+    return in_row(puzzle_ptr, row, target) && in_col(puzzle_ptr, col, target) && in_sub_puzzle(puzzle_ptr, row, col, target);
+}
+
+
+int* possibilities(int (*puzzle_ptr)[9], int i, int j);
 
 
 void print_puzzle(int (*puzzle_ptr)[9]) {
